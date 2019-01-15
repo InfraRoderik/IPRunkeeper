@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">IPRunkeeper</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="new_route_button">New Route</string>
+    <string name="permission_title">permissie</string>
+    <string name="permission_message">permission</string>
 </resources>
