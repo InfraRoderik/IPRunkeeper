@@ -53,8 +53,8 @@ public class MainActivity extends AppCompatActivity implements WeatherListener {
         setContentView(R.layout.activity_main);
         TextView weather_text = (TextView)findViewById(R.id.weather_text);
         TextView temperature_text = (TextView)findViewById(R.id.temperature_text);
-        weather_text.setText("");
-        temperature_text.setText("");
+        weather_text.setText(R.string.weather_text);
+        temperature_text.setText(R.string.temperature_text);
         ApiHandler apiHandler = new ApiHandler(this, this);
         apiHandler.getWeather();
         apiHandler = new ApiHandler(this, this);

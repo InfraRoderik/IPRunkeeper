@@ -12,4 +12,6 @@
     <string name="StartTime_Text">Start Time</string>
     <string name="EndTime_text">End time</string>
     <string name="result_text">Results</string>
+    <string name="weather_text">Weather</string>
+    <string name="temperature_text">Temperature</string>
 </resources>

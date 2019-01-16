@@ -13,4 +13,6 @@
     <string name="StartTime_Text">Start tijd</string>
     <string name="EndTime_text">Eind tijd</string>
     <string name="result_text">Resultaten</string>
+    <string name="weather_text">Weer</string>
+    <string name="temperature_text">Temperatuur</string>
 </resources>
