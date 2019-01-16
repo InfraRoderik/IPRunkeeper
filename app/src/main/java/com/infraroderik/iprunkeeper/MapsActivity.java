@@ -99,10 +99,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         settings.setCompassEnabled(true);
         mMap = googleMap;
 
-
+        mMap.setMinZoomPreference(14);
+        mMap.setMaxZoomPreference(24);
         if (ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) return;
         mMap.setMyLocationEnabled(true);
         settings.setMyLocationButtonEnabled(true);
+        LatLng currentLocation = new LatLng(51.585843, 4.792213);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
 
     }
 

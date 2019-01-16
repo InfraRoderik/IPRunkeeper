@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.infraroderik.iprunkeeper.DataModel.Segment;
 import com.infraroderik.iprunkeeper.DataModel.Traject;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -40,7 +41,11 @@ public class RouteAdapter extends ArrayAdapter<Traject> {
         TextView speed = (TextView) convertView.findViewById(R.id.AvarageSpeed);
         TextView length = (TextView) convertView.findViewById(R.id.Length);
         Date d = new Date(traject.getStartDateTime());
-        startTime.setText(d.toString());
+
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT);
+        String date = dateFormat.format(new Date());
+
+        startTime.setText(date);
         duration.setText((traject.getEndDateTime() - traject.getStartDateTime())/60000+" min.");
         float i = distance/1000;
         float p = (float) ((float)(traject.getEndDateTime()- traject.getStartDateTime()) /3600000.0);
