@@ -6,4 +6,11 @@
     <string name="new_route_button">Nieuwe route</string>
     <string name="permission_title">permissie</string>
     <string name="permission_message">permissie</string>
+    <string name="title_activity_detail">Kaart</string>
+    <string name="Speed_text">Snelheid</string>
+    <string name="Distance_text">Afstand</string>
+    <string name="Time_text">Tijd</string>
+    <string name="StartTime_Text">Start tijd</string>
+    <string name="EndTime_text">Eind tijd</string>
+    <string name="result_text">Resultaten</string>
 </resources>

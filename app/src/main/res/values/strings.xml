@@ -3,7 +3,13 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_maps">Map</string>
     <string name="new_route_button">New Route</string>
-    <string name="permission_title">permissie</string>
+    <string name="permission_title">permission</string>
     <string name="permission_message">permission</string>
     <string name="title_activity_detail">Map</string>
+    <string name="Speed_text">Speed</string>
+    <string name="Distance_text">Distance</string>
+    <string name="Time_text">Time</string>
+    <string name="StartTime_Text">Start Time</string>
+    <string name="EndTime_text">End time</string>
+    <string name="result_text">Results</string>
 </resources>

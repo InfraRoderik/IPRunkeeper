@@ -19,6 +19,8 @@
         android:id="@+id/imageButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:background="@android:color/holo_red_dark"
+        android:backgroundTint="@android:color/holo_red_dark"
         android:scaleType="centerInside"
         android:src="@android:color/holo_blue_dark" />
 

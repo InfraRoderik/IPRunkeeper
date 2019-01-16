@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -24,6 +25,7 @@ public class DetailActivity extends FragmentActivity implements OnMapReadyCallba
     private GoogleMap mMap;
     private PolylineOptions lineOptions2;
     private List<LatLng> legs;
+    private Button resultButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +35,6 @@ public class DetailActivity extends FragmentActivity implements OnMapReadyCallba
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
 
     }
 
@@ -52,6 +53,15 @@ public class DetailActivity extends FragmentActivity implements OnMapReadyCallba
         mMap = googleMap;
         Intent intent = getIntent();
         Traject traject = (Traject) intent.getSerializableExtra("FURBY_OBJECT");
+
+        resultButton = findViewById(R.id.resultsButton);
+        resultButton.setText(R.string.result_text);
+        resultButton.setOnClickListener(v -> {
+            Intent intentje = new Intent(this, Main3Activity.class);
+            intentje.putExtra("TRAJECT", traject);
+            startActivity(intentje);
+        });
+
 
         legs = new ArrayList<LatLng>();
         legs.add(new LatLng(traject.getSegmentList().get(0).getStartPointLat(),traject.getSegmentList().get(0).getStartPointLong()));
