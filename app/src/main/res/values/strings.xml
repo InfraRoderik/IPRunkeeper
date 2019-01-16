@@ -5,4 +5,5 @@
     <string name="new_route_button">New Route</string>
     <string name="permission_title">permissie</string>
     <string name="permission_message">permission</string>
+    <string name="title_activity_detail">Map</string>
 </resources>

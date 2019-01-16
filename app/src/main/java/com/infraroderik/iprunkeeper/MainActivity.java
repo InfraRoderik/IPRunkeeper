@@ -12,18 +12,28 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+
+import com.infraroderik.iprunkeeper.DataModel.Traject;
+import com.infraroderik.iprunkeeper.Service.DataStorage;
+
+import java.util.ArrayList;
 
 import com.infraroderik.iprunkeeper.Service.NotificationService;
 
 public class MainActivity extends AppCompatActivity {
 private Button newRouterButton;
 private ListView previousRoutes;
+private ArrayAdapter routeAdapter;
+private DataStorage storage;
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
@@ -34,8 +44,35 @@ private ListView previousRoutes;
         setContentView(R.layout.activity_main);
         newRouterButton = findViewById(R.id.button2);
         newRouterButton.setText(R.string.new_route_button);
+        previousRoutes = findViewById(R.id.list);
 
+        storage = new DataStorage(getApplicationContext());
+        ArrayList<Traject> trajects = new ArrayList<>();
+        trajects = (ArrayList<Traject>) this.storage.retrieveAllTrajects();
+        routeAdapter = new ArrayAdapter<Traject>(this, android.R.layout.simple_list_item_1, trajects);
 
+        routeAdapter = new RouteAdapter(getApplicationContext(), trajects);
+
+        previousRoutes.setAdapter(routeAdapter);
+
+        ArrayList<Traject> finalTrajects = trajects;
+        previousRoutes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("FURBY_TAG", ""+position);
+
+                Intent intent = new Intent(
+                        getApplicationContext(),
+                        DetailActivity.class
+                );
+
+                Traject traject = finalTrajects.get(position);
+                intent.putExtra("FURBY_OBJECT", traject);
+
+                startActivity(intent);
+
+            }
+        });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
