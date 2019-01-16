@@ -60,9 +60,9 @@ public class NotificationService extends Service {
         handlerThread.start();
 
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setFastestInterval(3000);
-        mLocationRequest.setInterval(50000);
-        mLocationRequest.setMaxWaitTime(7000);
+        mLocationRequest.setFastestInterval(1000);
+        mLocationRequest.setInterval(3000);
+        mLocationRequest.setMaxWaitTime(5000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationRequest.setSmallestDisplacement(1);
 
