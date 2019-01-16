@@ -6,11 +6,11 @@ import java.util.List;
 
 public class Segment implements Serializable
 {
-    private int time;
-    private int startPointLat;
-    private int startPointLong;
-    private int endPointLat;
-    private int endPointLong;
+    private long time;
+    private double startPointLat;
+    private double startPointLong;
+    private double endPointLat;
+    private double endPointLong;
 
     public Segment(Builder builder)
     {
@@ -23,37 +23,37 @@ public class Segment implements Serializable
 
     public static class Builder
     {
-        private int time;
-        private int startPointLat;
-        private int startPointLong;
-        private int endPointLat;
-        private int endPointLong;
+        private long time;
+        private double startPointLat;
+        private double startPointLong;
+        private double endPointLat;
+        private double endPointLong;
 
-        public Builder time(int time)
+        public Builder time(long time)
         {
             this.time = time;
             return this;
         }
 
-        public Builder startPointLat(int startPointLat)
+        public Builder startPointLat(double startPointLat)
         {
             this.startPointLat = startPointLat;
             return this;
         }
 
-        public Builder startPointLong(int startPointLong)
+        public Builder startPointLong(double startPointLong)
         {
             this.startPointLong = startPointLong;
             return this;
         }
 
-        public Builder endPointLat(int endPointLat)
+        public Builder endPointLat(double endPointLat)
         {
             this.endPointLat = endPointLat;
             return this;
         }
 
-        public Builder endPointLong(int endPointLong)
+        public Builder endPointLong(double endPointLong)
         {
             this.endPointLong = endPointLong;
             return this;
@@ -65,7 +65,7 @@ public class Segment implements Serializable
         }
     }
 
-    public int getTime() {
+    public long getTime() {
         return time;
     }
 
@@ -73,35 +73,35 @@ public class Segment implements Serializable
         this.time = time;
     }
 
-    public int getStartPointLat() {
+    public double getStartPointLat() {
         return startPointLat;
     }
 
-    public void setStartPointLat(int startPointLat) {
+    public void setStartPointLat(double startPointLat) {
         this.startPointLat = startPointLat;
     }
 
-    public int getStartPointLong() {
+    public double getStartPointLong() {
         return startPointLong;
     }
 
-    public void setStartPointLong(int startPointLong) {
+    public void setStartPointLong(double startPointLong) {
         this.startPointLong = startPointLong;
     }
 
-    public int getEndPointLat() {
+    public double getEndPointLat() {
         return endPointLat;
     }
 
-    public void setEndPointLat(int endPointLat) {
+    public void setEndPointLat(double endPointLat) {
         this.endPointLat = endPointLat;
     }
 
-    public int getEndPointLong() {
+    public double getEndPointLong() {
         return endPointLong;
     }
 
-    public void setEndPointLong(int endPointLong) {
+    public void setEndPointLong(double endPointLong) {
         this.endPointLong = endPointLong;
     }
 
