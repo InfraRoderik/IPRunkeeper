@@ -102,7 +102,7 @@ public class DataStorage extends SQLiteOpenHelper
      */
     public List<Traject> retrieveAllTrajects() {
         List<Traject> trajects = new ArrayList<>();
-        String query = String.format("SELECT * FROM %s;", DatabaseQuery.TABLE_HEADER_TRAJECT);
+        String query = "SELECT * FROM TRAJECT";
         Log.d("QUERYALLTRAJECT", query);
 
         Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
@@ -126,6 +126,7 @@ public class DataStorage extends SQLiteOpenHelper
     }
 
     public ArrayList<Segment> retrieveSegmentsOfTraject(int trajectID) {
+        Log.d("TEST", trajectID+"");
         ArrayList<Segment> segmentList = new ArrayList<>();
         String query = "SELECT * FROM SEGMENT JOIN TRAJECT ON SEGMENT.trajectID = TRAJECT.ID WHERE SEGMENT.trajectID =" + trajectID + ";";
         Log.d("QUERYSEGMENT", query);
@@ -153,7 +154,8 @@ public class DataStorage extends SQLiteOpenHelper
             return segmentList;
         } else {
             cursor.close();
-            throw new Error("TRAJECT COULD NOT BE FOUND BECAUSE EITHER IT DOES NOT EXIST OR INVALID PARAMETERS!");
+            Log.d("QUERY", "TRAJECT COULD NOT BE FOUND BECAUSE EITHER IT DOES NOT EXIST OR INVALID PARAMETERS!");
+            return segmentList;
         }
     }
 
