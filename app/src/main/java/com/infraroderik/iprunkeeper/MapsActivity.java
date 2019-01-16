@@ -4,6 +4,9 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.widget.ImageButton;
+import android.widget.Toast;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -15,11 +18,24 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-
+    private ImageButton startStop;
+    private boolean started = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        startStop = findViewById(R.id.imageButton);
+        startStop.setImageResource(R.drawable.play);
+        startStop.setOnClickListener(v ->{
+            if(!started) {
+                routeStart();
+                startStop.setImageResource(R.drawable.stop);
+            }
+            else{
+                stopRoute();
+            }
+        });
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -49,7 +65,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) return;
         mMap.setMyLocationEnabled(true);
         settings.setMyLocationButtonEnabled(true);
-        // Add a marker in Sydney and move the camera
+
+    }
+
+    public void routeStart(){
+
+    }
+
+    public void stopRoute(){
 
     }
 }

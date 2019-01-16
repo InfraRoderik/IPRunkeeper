@@ -16,11 +16,13 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
 private Button newRouterButton;
 private ListView previousRoutes;
+
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
 
@@ -30,6 +32,8 @@ private ListView previousRoutes;
         setContentView(R.layout.activity_main);
         newRouterButton = findViewById(R.id.button2);
         newRouterButton.setText(R.string.new_route_button);
+
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
