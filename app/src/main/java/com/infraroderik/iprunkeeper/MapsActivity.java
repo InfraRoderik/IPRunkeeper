@@ -1,5 +1,6 @@
 package com.infraroderik.iprunkeeper;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -15,11 +16,19 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.Date;
+import java.sql.Time;
+import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private ImageButton startStop;
     private boolean started = false;
+    private Date startTime;
+    private Date endTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,13 +36,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         startStop = findViewById(R.id.imageButton);
         startStop.setImageResource(R.drawable.play);
+        Timer timer = new Timer();
+        MyTimerTask task = new MyTimerTask();
         startStop.setOnClickListener(v ->{
             if(!started) {
-                routeStart();
+                timer.schedule(task, 1000, 10000);
                 startStop.setImageResource(R.drawable.stop);
             }
             else{
-                stopRoute();
+
             }
         });
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -69,10 +80,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void routeStart(){
-
+        startTime = Calendar.getInstance().getTime();
     }
 
     public void stopRoute(){
+        endTime = Calendar.getInstance().getTime();
+        Intent intent = new Intent(this, Main3Activity.class);
+        startActivity(intent);
+    }
+}
+
+class MyTimerTask extends TimerTask{
+    @Override
+    public void run() {
 
     }
 }
+
