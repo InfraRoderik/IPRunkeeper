@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.infraroderik.iprunkeeper.DataModel.Traject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class RouteAdapter extends ArrayAdapter<Traject> {
@@ -34,9 +35,9 @@ public class RouteAdapter extends ArrayAdapter<Traject> {
         TextView duration = (TextView) convertView.findViewById(R.id.Duration);
         TextView speed = (TextView) convertView.findViewById(R.id.AvarageSpeed);
         TextView length = (TextView) convertView.findViewById(R.id.Length);
-
-        startTime.setText(new Date(traject.getStartDateTime()).toString());
-        duration.setText((new Date(traject.getEndDateTime()).getTime())- (new Date(traject.getStartDateTime()).getTime())/60000+" min.");
+        Date d = new Date(traject.getStartDateTime());
+        startTime.setText(d.toString());
+        duration.setText((traject.getEndDateTime() - traject.getStartDateTime())/60000+" min.");
         speed.setText("");
         length.setText("");
 

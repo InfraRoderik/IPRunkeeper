@@ -40,9 +40,9 @@ public class DatabaseQuery
 
     public static final String CREATE_TABLE_TRAJECT = String.format("CREATE TABLE IF NOT EXISTS %s (\n" +
             "\t%s INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-            "\t%s INTEGER,\n" +
-            "    %s INTEGER,\n" +
-            "    %s INTEGER\n" +
+            "\t%s INTEGER(50),\n" +
+            "    %s INTEGER(50),\n" +
+            "    %s INTEGER(50)\n" +
             ");", TABLE_HEADER_TRAJECT, COL_TRAJECT_ID, COL_TRAJECT_TYPE,
                 COL_TRAJECT_STARTDATETIME, COL_TRAJECT_ENDDATETIME);
 

@@ -2,6 +2,9 @@ package com.infraroderik.iprunkeeper;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -15,8 +18,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.infraroderik.iprunkeeper.DataModel.Segment;
 import com.infraroderik.iprunkeeper.DataModel.Traject;
 import com.infraroderik.iprunkeeper.Service.DataStorage;
@@ -43,8 +48,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private long lastTime;
     private LatLng lastLatLng = null;
     private ArrayList<Segment> segments;
+    private ArrayList<LatLng> latLngs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        segments = new ArrayList<>();
+        latLngs = new ArrayList<>();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         LocationCallbackHandler.getInstance().addListener(this);
@@ -92,12 +100,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void routeStart(){
+        segments = new ArrayList<>();
+        latLngs = new ArrayList<>();
         started = true;
         startStop.setImageResource(R.drawable.stop);
         Toast.makeText(this, "Route tracking started", Toast.LENGTH_LONG).show();
         startForegroundService(new Intent(this, NotificationService.class).setAction("START"));
-        startTime = Calendar.getInstance().getTime();
-        segments = new ArrayList<>();
+        startTime = new Date();
     }
 
     public void stopRoute(){
@@ -111,7 +120,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .segmentList(segments)
                     .type(0)
                     .startDateTime(startTime.getTime())
-                    .endDateTime(Calendar.getInstance().getTimeInMillis())
+                    .endDateTime(new Date().getTime())
                     .build();
             DataStorage storage = new DataStorage(this);
             storage.addTraject(traject);
@@ -124,6 +133,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onLocationAvailable(Location location) {
+        latLngs.add(new LatLng(location.getLatitude(), location.getLongitude()));
         if(lastLatLng != null) {
             segments.add(new Segment.Builder()
                     .time((int)(Calendar.getInstance().getTimeInMillis() - lastTime))
@@ -132,10 +142,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .endPointLat(location.getLatitude())
                     .endPointLong(location.getLongitude())
                     .build());
+            mMap.clear();
+            PolylineOptions lineOptions = new PolylineOptions();
+            lineOptions.addAll(latLngs);
+            lineOptions.width(100);
+            lineOptions.color(Color.RED);
+            mMap.addPolyline(lineOptions);
         }
 
         lastLatLng = new LatLng(location.getLatitude(), location.getLongitude());
         lastTime = Calendar.getInstance().getTimeInMillis();
+
     }
 }
 

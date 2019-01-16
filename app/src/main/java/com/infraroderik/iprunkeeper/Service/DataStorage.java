@@ -114,8 +114,8 @@ public class DataStorage extends SQLiteOpenHelper
             do {
                 Traject traject = new Traject.Builder()
                         .type(cursor.getInt(cursor.getColumnIndex(DatabaseQuery.COL_TRAJECT_TYPE)))
-                        .startDateTime(cursor.getInt(cursor.getColumnIndex(DatabaseQuery.COL_TRAJECT_STARTDATETIME)))
-                        .endDateTime(cursor.getInt(cursor.getColumnIndex(DatabaseQuery.COL_TRAJECT_ENDDATETIME)))
+                        .startDateTime(cursor.getLong(cursor.getColumnIndex(DatabaseQuery.COL_TRAJECT_STARTDATETIME)))
+                        .endDateTime(cursor.getLong(cursor.getColumnIndex(DatabaseQuery.COL_TRAJECT_ENDDATETIME)))
                         .segmentList(retrieveSegmentsOfTraject(cursor.getInt(cursor.getColumnIndex(DatabaseQuery.COL_TRAJECT_ID))))
                         .build();
                 trajects.add(traject);
@@ -142,11 +142,11 @@ public class DataStorage extends SQLiteOpenHelper
         if(cursor.getCount() > 0 ) {
             do {
                 Segment segment = new Segment.Builder()
-                        .time(cursor.getInt(cursor.getColumnIndex(DatabaseQuery.COL_SEGMENT_TIME)))
-                        .startPointLat(cursor.getInt(cursor.getColumnIndex(DatabaseQuery.COL_SEGMENT_STARTPOINTLAT)))
-                        .startPointLong(cursor.getInt(cursor.getColumnIndex(DatabaseQuery.COL_SEGMENT_STARTPOINTLONG)))
-                        .endPointLat(cursor.getInt(cursor.getColumnIndex(DatabaseQuery.COL_SEGMENT_ENDPOINTLAT)))
-                        .endPointLong(cursor.getInt(cursor.getColumnIndex(DatabaseQuery.COL_SEGMENT_ENDPOINTLONG)))
+                        .time(cursor.getLong(cursor.getColumnIndex(DatabaseQuery.COL_SEGMENT_TIME)))
+                        .startPointLat(cursor.getDouble(cursor.getColumnIndex(DatabaseQuery.COL_SEGMENT_STARTPOINTLAT)))
+                        .startPointLong(cursor.getDouble(cursor.getColumnIndex(DatabaseQuery.COL_SEGMENT_STARTPOINTLONG)))
+                        .endPointLat(cursor.getDouble(cursor.getColumnIndex(DatabaseQuery.COL_SEGMENT_ENDPOINTLAT)))
+                        .endPointLong(cursor.getDouble(cursor.getColumnIndex(DatabaseQuery.COL_SEGMENT_ENDPOINTLONG)))
                         .build();
                 segmentList.add(segment);
             }while (cursor.moveToNext());
