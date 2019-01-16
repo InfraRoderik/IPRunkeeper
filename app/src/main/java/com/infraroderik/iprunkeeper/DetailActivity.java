@@ -1,6 +1,7 @@
 package com.infraroderik.iprunkeeper;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -10,10 +11,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.infraroderik.iprunkeeper.DataModel.Segment;
 import com.infraroderik.iprunkeeper.DataModel.Traject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DetailActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -31,14 +34,7 @@ public class DetailActivity extends FragmentActivity implements OnMapReadyCallba
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        Intent intent = getIntent();
-        Traject traject = (Traject) intent.getSerializableExtra("FURBY_OBJECT");
 
-
-        legs.add(new LatLng(traject.getSegmentList().get(0).getStartPointLat(),traject.getSegmentList().get(0).getStartPointLong()));
-        for (Segment s: traject.getSegmentList()) {
-            legs.add(new LatLng(s.getEndPointLat(), s.getEndPointLong()))  ;
-        }
     }
 
 
@@ -54,6 +50,20 @@ public class DetailActivity extends FragmentActivity implements OnMapReadyCallba
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        Intent intent = getIntent();
+        Traject traject = (Traject) intent.getSerializableExtra("FURBY_OBJECT");
 
+        legs = new ArrayList<LatLng>();
+        legs.add(new LatLng(traject.getSegmentList().get(0).getStartPointLat(),traject.getSegmentList().get(0).getStartPointLong()));
+        for (Segment s: traject.getSegmentList()) {
+            legs.add(new LatLng(s.getEndPointLat(), s.getEndPointLong()))  ;
+
+        }
+        Polyline line = mMap.addPolyline(
+                new PolylineOptions().addAll(
+                        legs
+                ).width(90).color(Color.BLUE).geodesic(true)
+        );
+        line.setVisible(true);
     }
 }
