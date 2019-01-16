@@ -29,7 +29,7 @@ public class DatabaseQuery
             "    %s VARCHAR(50),\n" +
             "    %s VARCHAR(50),\n" +
             "    %s VARCHAR(50),\n" +
-            "    %s INTEGER(50),\n" +
+            "    %s INTEGER(50) NULL,\n" +
                     "\tCONSTRAINT %s\n" +
                     "\t\tFOREIGN KEY (%s)\n" +
                     "\t\tREFERENCES %s (%s)\n" +

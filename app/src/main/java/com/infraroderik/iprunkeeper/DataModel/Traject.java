@@ -7,8 +7,8 @@ import java.util.List;
 public class Traject implements Serializable
 {
     private int type;
-    private int startDateTime;
-    private int endDateTime;
+    private long startDateTime;
+    private long endDateTime;
     private ArrayList<Segment> segmentList;
 
     public Traject(Builder builder)
@@ -22,8 +22,8 @@ public class Traject implements Serializable
     public static class Builder
     {
         private int type;
-        private int startDateTime;
-        private int endDateTime;
+        private long startDateTime;
+        private long endDateTime;
         private ArrayList<Segment> segmentList;
 
         public Builder type(int type)
@@ -32,13 +32,13 @@ public class Traject implements Serializable
             return this;
         }
 
-        public Builder startDateTime(int startDateTime)
+        public Builder startDateTime(long startDateTime)
         {
             this.startDateTime = startDateTime;
             return this;
         }
 
-        public Builder endDateTime(int endDateTime)
+        public Builder endDateTime(long endDateTime)
         {
             this.endDateTime = endDateTime;
             return this;
@@ -64,7 +64,7 @@ public class Traject implements Serializable
         this.type = type;
     }
 
-    public int getStartDateTime() {
+    public long getStartDateTime() {
         return startDateTime;
     }
 
@@ -72,7 +72,7 @@ public class Traject implements Serializable
         this.startDateTime = startDateTime;
     }
 
-    public int getEndDateTime() {
+    public long getEndDateTime() {
         return endDateTime;
     }
 

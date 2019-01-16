@@ -127,7 +127,7 @@ public class DataStorage extends SQLiteOpenHelper
 
     public ArrayList<Segment> retrieveSegmentsOfTraject(int trajectID) {
         ArrayList<Segment> segmentList = new ArrayList<>();
-        String query = "SELECT * FROM SEGMENT JOIN TRAJECT ON id = SEGMENT.trajectID WHERE SEGMENT.trajectID =" + trajectID + ";";
+        String query = "SELECT * FROM SEGMENT JOIN TRAJECT ON SEGMENT.trajectID = TRAJECT.ID WHERE SEGMENT.trajectID =" + trajectID + ";";
         Log.d("QUERYSEGMENT", query);
         Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
 
@@ -157,68 +157,48 @@ public class DataStorage extends SQLiteOpenHelper
         }
     }
 
-    /*
-    public void addMonument(@NonNull Monument monument) {
+    public void addSegment(@NonNull Segment segment, int trajectID) {
         ContentValues values = new ContentValues();
-        values.put(DatabaseQuery.COL_MONUMENT_MONUMENTNAME, monument.getName());
-        values.put(DatabaseQuery.COL_MONUMENT_DESCRIPTION, monument.getDescription());
-        values.put(DatabaseQuery.COL_MONUMENT_CREATOR, monument.getCreator());
-        values.put(DatabaseQuery.COL_MONUMENT_SOUNDFILEURL, monument.getSoundURL());
-        values.put(DatabaseQuery.COL_MONUMENT_IMAGEURL, monument.getImageURL());
-        values.put(DatabaseQuery.COL_MONUMENT_LATITUDE, monument.getLatitude());
-        values.put(DatabaseQuery.COL_MONUMENT_LONGITUDE, monument.getLongitude());
-        values.put(DatabaseQuery.COL_MONUMENT_CONSTRUCTIONYEAR, monument.getConstructionYear());
+        values.put(DatabaseQuery.COL_SEGMENT_TIME, segment.getTime());
+        values.put(DatabaseQuery.COL_SEGMENT_STARTPOINTLAT, segment.getStartPointLat());
+        values.put(DatabaseQuery.COL_SEGMENT_STARTPOINTLONG, segment.getStartPointLong());
+        values.put(DatabaseQuery.COL_SEGMENT_ENDPOINTLAT, segment.getEndPointLat());
+        values.put(DatabaseQuery.COL_SEGMENT_ENDPOINTLONG, segment.getEndPointLong());
+        if(trajectID != -1)
+            values.put(DatabaseQuery.COL_SEGMENT_TRAJECTID, trajectID);
 
-        if(monument.isVisited()) {
-            values.put(DatabaseQuery.COL_MONUMENT_ISVISITED, 1);
-        } else {
-            values.put(DatabaseQuery.COL_MONUMENT_ISVISITED, 0);
-        }
 
         SQLiteDatabase db = getWritableDatabase();
-        long i = db.insert(DatabaseQuery.TABLE_HEADER_MONUMENT, null, values);
+        long i = db.insert(DatabaseQuery.TABLE_HEADER_SEGMENT, null, values);
         Log.i("ALISTANMO", String.valueOf(i));
-        Log.i("INSERTEDDB", "INSERTED MONUMENT IN DB");
+        Log.i("INSERTEDDB", "INSERTED SEGMENT IN DB");
     }
-    */
 
-    /*
-    public void addRoute(@NonNull Route route) {
+
+    public void addTraject(@NonNull Traject traject) {
         ContentValues values = new ContentValues();
-        values.put(DatabaseQuery.COL_ROUTE_ROUTENAME, route.getName());
-        values.put(DatabaseQuery.COL_ROUTE_DESCRIPTION, route.getDescription());
-        values.put(DatabaseQuery.COL_ROUTE_LENGTH, route.getLength());
+        values.put(DatabaseQuery.COL_TRAJECT_TYPE, traject.getType());
+        values.put(DatabaseQuery.COL_TRAJECT_STARTDATETIME, traject.getStartDateTime());
+        values.put(DatabaseQuery.COL_TRAJECT_ENDDATETIME, traject.getEndDateTime());
 
-        if(route.isFinished()) {
-            values.put(DatabaseQuery.COL_ROUTE_FINISHED, 1);
-        } else {
-            values.put(DatabaseQuery.COL_ROUTE_FINISHED, 0);
-        }
 
-        getWritableDatabase().insert(DatabaseQuery.TABLE_HEADER_ROUTE, null, values);
+        getWritableDatabase().insert(DatabaseQuery.TABLE_HEADER_TRAJECT, null, values);
         values.clear();
-        Log.i("INSERTEDDB", "INSERTED ROUTE IN DB");
-
+        Log.i("INSERTEDDB", "INSERTED TRAJECT IN DB");
+        int trajectID = getTPrimaryKey(traject);
         int index = 0;
         getWritableDatabase().beginTransaction();
         try {
 
-            for (Monument monument : route.getMonumentList())
+            for (Segment segment : traject.getSegmentList())
             {
-                addMonument(monument);
-                values.put(DatabaseQuery.COL_MAIN_ROUTEID, getRPrimaryKey(route));
-                values.put(DatabaseQuery.COL_MAIN_MONUMENTNAME, getMPrimaryKey(monument));
-                values.put(DatabaseQuery.COL_MAIN_ORDERMONUMENTS, index);
-                index++;
-                getWritableDatabase().insert(DatabaseQuery.TABLE_HEADER_MAIN, null, values);
-                values.clear();
+                addSegment(segment, trajectID);
             }
             getWritableDatabase().setTransactionSuccessful();
         } finally {
             getWritableDatabase().endTransaction();
         }
     }
-    */
 
     /*
     public List<Route> retrieveAllRoutes() {
@@ -297,12 +277,13 @@ public class DataStorage extends SQLiteOpenHelper
     */
 
     /**
-     * Retrieve the primary key id of the route.
-     * @param route For it to check on a route.
-     * @return The id number of the a specific route, if it cannot find a ID it will throw a error;
-    public int getRPrimaryKey(Route route) {
-        String query = "SELECT id FROM ROUTE WHERE RouteName = \"" + route.getName() + "\";";
-        Log.d("QueryPrimaryKeyR", query);
+     * Retrieve the primary key id of the traject.
+     * @param traject For it to check on a traject.
+     * @return The id number of the a specific traject, if it cannot find a ID it will throw a error;
+     */
+    public int getTPrimaryKey(Traject traject) {
+        String query = "SELECT id FROM TRAJECT WHERE startDateTime = \"" + traject.getStartDateTime() + "\";";
+        Log.d("QueryPrimaryKeyT", query);
 
         Cursor cursor = getReadableDatabase().rawQuery(query, null);
         if(cursor != null)
@@ -310,7 +291,7 @@ public class DataStorage extends SQLiteOpenHelper
             cursor.moveToFirst();
             if(cursor.getCount() > 0 ){
 
-                int id = cursor.getInt(cursor.getColumnIndex(DatabaseQuery.COL_ROUTE_ID));
+                int id = cursor.getInt(cursor.getColumnIndex(DatabaseQuery.COL_TRAJECT_ID));
                 cursor.close();
                 return id;
             } else {
@@ -322,7 +303,6 @@ public class DataStorage extends SQLiteOpenHelper
             throw new Error("CURSOR IS NULL");
         }
     }
-    */
 
 
     /**
