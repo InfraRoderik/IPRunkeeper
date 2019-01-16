@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -24,10 +26,15 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.infraroderik.iprunkeeper.DataModel.Segment;
 import com.infraroderik.iprunkeeper.DataModel.Traject;
+import com.infraroderik.iprunkeeper.Service.ApiHandler;
 import com.infraroderik.iprunkeeper.Service.DataStorage;
 import com.infraroderik.iprunkeeper.Service.LocationCallbackHandler;
 import com.infraroderik.iprunkeeper.Service.LocationCallbackListener;
 import com.infraroderik.iprunkeeper.Service.NotificationService;
+import com.infraroderik.iprunkeeper.Service.WeatherListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,7 +46,6 @@ import java.util.TimerTask;
 import static android.support.v4.app.ServiceCompat.stopForeground;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationCallbackListener {
-
     private GoogleMap mMap;
     private ImageButton startStop;
     private boolean started = false;
@@ -49,6 +55,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLng lastLatLng = null;
     private ArrayList<Segment> segments;
     private ArrayList<LatLng> latLngs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         segments = new ArrayList<>();
@@ -145,7 +152,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.clear();
             PolylineOptions lineOptions = new PolylineOptions();
             lineOptions.addAll(latLngs);
-            lineOptions.width(100);
+            lineOptions.width(15);
             lineOptions.color(Color.RED);
             mMap.addPolyline(lineOptions);
         }

@@ -56,14 +56,20 @@ public class DetailActivity extends FragmentActivity implements OnMapReadyCallba
         legs = new ArrayList<LatLng>();
         legs.add(new LatLng(traject.getSegmentList().get(0).getStartPointLat(),traject.getSegmentList().get(0).getStartPointLong()));
         for (Segment s: traject.getSegmentList()) {
-            legs.add(new LatLng(s.getEndPointLat(), s.getEndPointLong()))  ;
-
+            legs.add(new LatLng(s.getEndPointLat(), s.getEndPointLong()));
         }
-        Polyline line = mMap.addPolyline(
-                new PolylineOptions().addAll(
-                        legs
-                ).width(90).color(Color.BLUE).geodesic(true)
-        );
-        line.setVisible(true);
+
+        PolylineOptions lineOptions = new PolylineOptions();
+        lineOptions.addAll(legs);
+        lineOptions.width(15);
+        lineOptions.color(Color.RED);
+        mMap.addPolyline(lineOptions);
+        mMap.setMinZoomPreference(14);
+        mMap.setMaxZoomPreference(24);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(legs.get(0),15));
+        // Zoom in, animating the camera.
+        googleMap.animateCamera(CameraUpdateFactory.zoomIn());
+        // Zoom out to zoom level 10, animating with a duration of 2 seconds.
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);
     }
 }

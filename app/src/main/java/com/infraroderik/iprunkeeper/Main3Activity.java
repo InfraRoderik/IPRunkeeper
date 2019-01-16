@@ -14,6 +14,6 @@ public class Main3Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
         traject = (Traject)getIntent().getExtras().get("TRAJECT");
-        Toast.makeText(this, traject.toString(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, traject.toString(), Toast.LENGTH_LONG).show();
     }
 }

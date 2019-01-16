@@ -21,19 +21,28 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.google.android.gms.maps.model.LatLng;
 import com.infraroderik.iprunkeeper.DataModel.Traject;
+import com.infraroderik.iprunkeeper.Service.ApiHandler;
 import com.infraroderik.iprunkeeper.Service.DataStorage;
 
 import java.util.ArrayList;
 
 import com.infraroderik.iprunkeeper.Service.NotificationService;
+import com.infraroderik.iprunkeeper.Service.WeatherListener;
 
-public class MainActivity extends AppCompatActivity {
-private Button newRouterButton;
-private ListView previousRoutes;
-private ArrayAdapter routeAdapter;
-private DataStorage storage;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.w3c.dom.Text;
+
+public class MainActivity extends AppCompatActivity implements WeatherListener {
+    private Button newRouterButton;
+    private ListView previousRoutes;
+    private ArrayAdapter routeAdapter;
+    private DataStorage storage;
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
@@ -42,6 +51,13 @@ private DataStorage storage;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        TextView weather_text = (TextView)findViewById(R.id.weather_text);
+        TextView temperature_text = (TextView)findViewById(R.id.temperature_text);
+        weather_text.setText("");
+        temperature_text.setText("");
+        ApiHandler apiHandler = new ApiHandler(this, this);
+        apiHandler.getWeather();
+        apiHandler = new ApiHandler(this, this);
         newRouterButton = findViewById(R.id.button2);
         newRouterButton.setText(R.string.new_route_button);
         previousRoutes = findViewById(R.id.list);
@@ -59,7 +75,7 @@ private DataStorage storage;
         previousRoutes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("FURBY_TAG", ""+position);
+                Log.i("FURBY_TAG", "" + position);
 
                 Intent intent = new Intent(
                         getApplicationContext(),
@@ -86,8 +102,8 @@ private DataStorage storage;
             startActivity(intent);
         });
     }
-    private void checkLocationPermission()
-    {
+
+    private void checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
@@ -106,7 +122,7 @@ private DataStorage storage;
                             //Prompt the user once explanation has been shown
                             ActivityCompat.requestPermissions(MainActivity.this,
                                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                    MY_PERMISSIONS_REQUEST_LOCATION );
+                                    MY_PERMISSIONS_REQUEST_LOCATION);
                         })
                         .create()
                         .show();
@@ -116,8 +132,25 @@ private DataStorage storage;
                 // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION );
+                        MY_PERMISSIONS_REQUEST_LOCATION);
             }
         }
+    }
+
+    @Override
+    public void onWeatherAvailable(JSONObject object) {
+        try {
+
+            TextView temperature = (TextView)findViewById(R.id.txtTemperature);
+            TextView weather = (TextView)findViewById(R.id.txtWeather);
+            temperature.setText(object.getJSONObject("main").get("temp").toString() + "°C");
+            weather.setText(object.getJSONArray("weather").getJSONObject(0).get("main").toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onWeatherError(VolleyError error) {
     }
 }
